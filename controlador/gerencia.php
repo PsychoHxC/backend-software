@@ -14,13 +14,28 @@ switch ($control) {
     case 'consulta':
         $vec = $gerencia->consulta();
     break;
+    
+    // case 'insertar':
+    //     $json = file_get_contents('php://input');
+    //     $params = json_decode($json, true); // Decodificar en array asociativo
+    
+    //     if (!$params) {
+    //         echo json_encode(["resultado" => "ERROR", "mensaje" => "Datos inválidos"]);
+    //         exit;
+    //     }
+    
+    //     $vec = $gerencia->insertar($params);
+    //     echo json_encode($vec);
+    //     break;
+
+    
     case 'insertar':
-        $json = file_get_contents('php:/input');
-        //$json = '[{4578957},{456},{54645},{5464},{13213}]';
+        $json = file_get_contents('php://input');
         $params = json_decode($json);
-        print_r($params);
         $vec = $gerencia->insertar($params);
-    break;
+        break;
+    
+    
     case 'eliminar':
         $id = $_GET['$id'];
         $vec = $gerencia->eliminar($id);
@@ -35,6 +50,10 @@ switch ($control) {
         $dato = $_GET['dato'];
         $vec = $gerencia->filtro($dato);
     break;
+
+    case 'aprobadas':
+        $vec = $gerencia->consultaAprobadas();
+        break;
 
 }
 
