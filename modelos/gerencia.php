@@ -149,7 +149,34 @@ class Gerencia
         return $resultados;
     }
 
-
+    public function aprobarOferta($id)
+    {
+        // Verificar si el estado es 0 antes de aprobar
+        $checkQuery = "SELECT estado FROM gerencia WHERE id_solicitud = $id";
+        $checkResult = mysqli_query($this->conexion, $checkQuery);
+        $row = mysqli_fetch_assoc($checkResult);
+    
+        if (!$row || $row['estado'] != 0) {
+            return [
+                "resultado" => "ERROR",
+                "mensaje" => "La solicitud no se puede aprobar porque su estado no es 0"
+            ];
+        }
+    
+        // Si el estado es 0, proceder con la aprobación (cambiar estado a 1)
+        $update = "UPDATE gerencia SET estado = 1 WHERE id_solicitud = $id";
+        if (mysqli_query($this->conexion, $update)) {
+            return [
+                "resultado" => "OK",
+                "mensaje" => "La solicitud ha sido aprobada"
+            ];
+        } else {
+            return [
+                "resultado" => "ERROR",
+                "mensaje" => "No se pudo aprobar la solicitud"
+            ];
+        }
+    }
 
 }
 ?>
