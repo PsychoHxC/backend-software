@@ -18,7 +18,8 @@ class Area{
                         nombre_area.nombre_area AS nombre_area, 
                         area.jefe_area, 
                         area.solicitud_personal,
-                        area.id_aprobacion 
+                        area.id_aprobacion,
+                        area.detalle_solicitud 
                     FROM area
                     JOIN nombre_area ON area.id_area = nombre_area.id_area
                     ORDER BY area.id";

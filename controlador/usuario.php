@@ -22,9 +22,10 @@ switch ($control) {
         $vec = $usuario->insertar($params);
     break;
     case 'eliminar':
-        $id = $_GET['$id'];
+        $id = $_GET['id']; // <-- CORRECTO
         $vec = $usuario->eliminar($id);
-    break;
+        echo json_encode($vec);
+        break;
     case 'editar':
         $json = file_get_contents('php://input');
         $params = json_decode($json);

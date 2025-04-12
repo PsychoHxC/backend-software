@@ -42,14 +42,38 @@ class Usuario{
         return $vec;
     }
 
-    public function editar($id, $params){
-        $editar = "UPDATE usuario SET solicitud_personal = '$params -> solicitud_personal' WHERE id = $id ";
-        mysqli_query($this->conexion,$editar);
+    // public function editar($id, $params){
+    //     $editar = "UPDATE usuario SET solicitud_personal = '$params -> solicitud_personal' WHERE id = $id ";
+    //     mysqli_query($this->conexion,$editar);
+    //     $vec = [];
+    //     $vec['resultado']= "OK";
+    //     $vec['mensaje']= "La solicitud ha sido editada";
+    //     return $vec;
+    // }
+
+
+
+    public function editar($id, $params): array {
+        $campos = [];
+    
+        foreach ($params as $key => $value) {
+            if ($key !== 'id') {
+                $valor_escapado = mysqli_real_escape_string($this->conexion, $value);
+                $campos[] = "$key = '$valor_escapado'";
+            }
+        }
+    
+
+        $set = implode(", ", $campos);
+        $editar = "UPDATE usuario SET $set WHERE id = $id";
+        mysqli_query($this->conexion, $editar);
+    
         $vec = [];
-        $vec['resultado']= "OK";
-        $vec['mensaje']= "La solicitud ha sido editada";
+        $vec['resultado'] = "OK";
+        $vec['mensaje'] = "El usuario ha sido editado correctamente";
         return $vec;
     }
+    
 
     public function filtro($valor){
         $filtro = "SELECT * FROM usuario WHERE nombre_usuario LIKE ' %$valor% '";
