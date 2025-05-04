@@ -33,15 +33,24 @@ class Usuario{
         }
 
         
-    public function insertar ($params) {
-        $ins ="INSERT INTO usuario(id) VALUES('$params -> id')";
-        mysqli_query($this->conexion, $ins);
-        $vec = [];
-        $vec['resultado']= "OK";
-        $vec['mensaje']= "La solicitud ha sido guardada";
-        return $vec;
-    }
-
+        public function insertar($params) {
+            $nombre_usuario = mysqli_real_escape_string($this->conexion, $params->nombre_usuario);
+            $email = mysqli_real_escape_string($this->conexion, $params->email);
+            $clave = mysqli_real_escape_string($this->conexion, $params->clave);
+            $telefono = mysqli_real_escape_string($this->conexion, $params->telefono);
+            $rol_usuario = mysqli_real_escape_string($this->conexion, $params->rol_usuario);
+        
+            $ins = "INSERT INTO usuario (nombre_usuario, email, clave, telefono, rol_usuario)
+                    VALUES ('$nombre_usuario', '$email', '$clave', '$telefono', '$rol_usuario')";
+        
+            mysqli_query($this->conexion, $ins);
+        
+            $vec = [];
+            $vec['resultado'] = "OK";
+            $vec['mensaje'] = "La solicitud ha sido guardada";
+            return $vec;
+        }
+        
     // public function editar($id, $params){
     //     $editar = "UPDATE usuario SET solicitud_personal = '$params -> solicitud_personal' WHERE id = $id ";
     //     mysqli_query($this->conexion,$editar);
